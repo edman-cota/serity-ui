@@ -36,6 +36,10 @@ export interface TooltipProps {
    */
   offset?: number
   /**
+   * Either if the user wants the tooltip to show the arrow pointing to the reference element.
+   */
+  hasArrow?: boolean
+  /**
    * Custom background color for the tooltip
    */
   bg?: CSS.Property.Color

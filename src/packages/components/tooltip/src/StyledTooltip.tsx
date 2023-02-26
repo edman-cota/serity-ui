@@ -31,7 +31,6 @@ function negate(placement: Placement) {
 }
 
 export const StyledTooltip = styled.div<StyleProps>`
-  width: max-content;
   position: fixed;
   top: ${(props) => props.positionRef.current.y}px;
   left: ${(props) => props.positionRef.current.x}px;

@@ -3,11 +3,13 @@ import Portal from './Portal'
 import { TooltipProps } from './types'
 import { computePostion } from './computePosition'
 import { StyledTooltip, StyledCommand, StyledSeparator } from './StyledTooltip'
+import { Arrow } from './Arrow'
 
 function Tooltip({
   label,
   placement = 'bottom',
   offset = 8,
+  hasArrow=false,
   borderRadius = 'base',
   disabled = 0,
   command,
@@ -19,18 +21,28 @@ function Tooltip({
 }: TooltipProps) {
   const [show, setShow] = useState<number>(0)
   const positionRef = useRef({ x: 0, y: 0 })
+  const [arrowPosition, setArrowPosition] = useState({ x: 0, y: 0})
   const tooltipRef = useRef<HTMLDivElement>(null)
+  const ARROWSIZE = 5;
 
   const handleMouseOver = (e: any) => {
     setShow(1)
+
     positionRef.current = computePostion(
       e.currentTarget,
       tooltipRef.current,
       placement,
       offset,
     )
+
+    const element = e.currentTarget.getBoundingClientRect()
+    const x = Math.round(element.left + (e.currentTarget.offsetWidth / 2) - ARROWSIZE)
+    const y = Math.round(positionRef.current.y - ARROWSIZE);
+    setArrowPosition({x: x, y: y})
+    console.log('Arrow pos: ', arrowPosition )
   }
   const handleMouseOut = () => setShow(0)
+
 
   let commands: string[] = []
 
@@ -77,6 +89,9 @@ function Tooltip({
               </>
             ) : null}
           </StyledTooltip>
+          {hasArrow && (
+            <Arrow show={show} position={arrowPosition} bg={bg}/>
+          )}
         </Portal>
       )}
     </>
